@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluide">
+
+        <form action="name.php" method="POST">
+            <div class="form-group my-2 row">
+                <div class="col-sm-3  text-left">
+                    <label for="firstname" class="h5  mx-5">first name:</label>
+                </div>
+                <div class="col-sm-3 mx-5">
+                    <input type="text" name="firstname" id="firstname" class=" border border-dark" width="100%">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3  text-left">
+                    <label for="lastname" class="h5  mx-5">last name:</label>
+                </div>
+                <div class="col-sm-3 mx-5">
+                    <input type="text" name="lastname" id="lastname" class=" border border-dark">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3  text-left">
+                    <label for="password" class="h5  mx-5">password:</label>
+                </div>
+                <div class="col-sm-3 mx-5">
+                    <input type="password" name="password" id="password" class=" border border-dark">
+                </div>
+            </div>
+            <div class="  row">
+                <div class="col-sm-3 "></div>
+                <div class="col-sm-3 mx-5">
+                    <button type="submit" class="btn-light  border border-dark py-2 px-3">GO</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
