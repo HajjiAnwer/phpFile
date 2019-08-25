@@ -1,36 +1,30 @@
 <?php
 ini_set('display_errors', 1);
-try{
-include 'database_connection.php';
-include 'DatabaseTable.php';
-$jokesTable=new DatabaseTable($pdo,'joke','idjoke');
-    if(isset($_POST['joke']))
-    {
-        $joke=$_POST['joke'];
-        $joke['jokedat']=new DataTime();
-        $joke['authorid']=1;
-        $jokesTable->save($joke);
-        header('location: joke.php');                                                                                                                                                                                                                                                  
-        
-    }
-    else{
-        if (isset($_GET['idjoke'])) 
-        {
-            $joke = $jokesTable->findById($_GET['idjoke']);
-        }
-        $title = 'Edit joke';
-        ob_start();
-        include 'addjoke.html.php';
-        $output = ob_get_clean();
-    }
-}
-catch(PDOException $e)
+if (isset($_POST['joketext'])) 
 {
-        $title='An error has occured';
-        $output='Database error'. $e->getMessage(). 'in'. 
-        $e->getFile(). ':'. $e->getLine();
-        }
-    include 'head.html.php';
-    include 'footer.html.php';
-
-?>
+    try 
+    {
+        include __DIR__.'/includeFile/DatabaseConnection.php';
+        include 'function.php';
+        insertJoke($pdo, ['authorId' => 1, 
+                          'joketext' =>$_POST['joketext'],
+                          'jokedate' =>new DateTime()
+                          ]);
+        header('location: jokes.php');
+    } 
+    catch (PDOException $e) 
+    {
+        $title = 'An error has occurred';
+        $output = 'Database error: ' . 
+        $e->getMessage() . ' in '. 
+        $e->getFile() . ':' . $e->getLine();
+    }
+} 
+else 
+{
+    $title = 'Add a new joke';
+    ob_start();
+    include  __DIR__ . '/includeFile/addjoke.html.php';
+    $output = ob_get_clean();
+}
+include  __DIR__ . '/includeFile/layout.html.php';

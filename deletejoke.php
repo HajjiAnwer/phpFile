@@ -1,17 +1,17 @@
 <?php
 ini_set('display_errors', 1);
-    try {
-        include 'database_connection.php';
-        include 'DatabaseTable.php';
-        $jokesTable=new DatabaseTable($pdo,'joke','idjoke');
-        $jokesTable->delete($_POST['idjoke']);
-        header('location: joke.php');}
-    catch (PDOException $e) {
-        $title = 'An error has occurred';
-        $output = 'Unable to connect to the database server: ' .
-         $e->getMessage() . ' in '. $e->getFile() . ':' . $e->getLine();}
-
-include 'head.html.php';
-include 'footer.html.php';
-
-?>
+try 
+{
+    include __DIR__ . '/includeFile/DatabaseConnection.php';
+    include 'function.php';
+    deleteJoke($pdo, $_POST['idjoke']);
+    header('location: jokes.php');
+}
+catch (PDOException $e) 
+{
+    $title = 'An error has occurred';
+    $output = 'Unable to connect to the database server: ' .
+    $e->getMessage() . ' in '. 
+    $e->getFile() . ':' . $e->getLine();
+}
+include  __DIR__ . '/includeFile/layout.html.php';

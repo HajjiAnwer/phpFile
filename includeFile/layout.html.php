@@ -26,13 +26,13 @@
                 <ul class="list-unstyled py-2">
                 <div class="row">
                     <div class="col-sm-4 text-center py-2">
-                   <li><a href="/" class="text-white">Home</a></li>
+                   <li><a href="home.php" class="text-white">Home</a></li>
                    </div>
                    <div class="col-sm-4 text-center py-2">
-                   <li><a href="/joke/list" class="text-white">Joke List</a></li>
+                   <li><a href="jokes.php" class="text-white">Joke List</a></li>
                    </div>
                    <div class="col-sm-4 text-center py-2">
-                   <li><a href="/joke/edit" class="text-white">Add A New Joke</a></li>
+                   <li><a href="addjoke.php" class="text-white">Add A New Joke</a></li>
                    </div>
                 </div>
             </ul>
@@ -41,5 +41,14 @@
         <main>
             <?php echo $output ?>
         </main>
+         <footer  >
+            <div class="container-fluid bg-primary pt-2 mb-2">
+            &copy; IJDB 2019
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+
         
     

@@ -1,5 +1,4 @@
-
-    <form action="addjoke.php" id="myform" method="post" name="registration">
+<form action="addjoke.php" id="myform" method="post" name="registration">
         <div class="form-group m-2 row">
                 <div class="col-sm-6  text-left">
                     <label for="joketext" class="h4 text-danger mt-3" >Type your joke here:</label>

@@ -1,5 +1,4 @@
-
-    <div class="container-fluid pb-3 pt-2 bg-light">
+ <div class="container-fluid pb-3 pt-2 bg-light">
         <h2 class="text-center text-primary">Internet Joke Database</h2>
         <p class="text-center text-primary">Welcome to the Internet Joke Database <br>
         <i class="fas fa-smile" style="font-size:40px;color:yellow;text-shadow:2px 2px 4px #000000;"></i>
@@ -35,5 +34,3 @@
             </div>
         </div>
     </div>
-
-    

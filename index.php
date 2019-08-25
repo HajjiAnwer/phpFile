@@ -1,21 +1,24 @@
-
 <?php
 ini_set('display_errors', 1);
-try 
+//include __DIR__.'/includeFile/layout.html.php';
+$array = [
+    'id' => 1,'joketext' => '!false - it\'s funny because it\'s true'];
+$query = ' UPDATE `joke` SET ';
+foreach ($array as $key => $value) 
 {
-    include 'EntryPoint.php';
-    include 'IjdbRoutes.php';
-    $route = ltrim(strtok($_SERVER['REQUEST_URI'], '?'), '/');
-    $entryPoint = new EntryPoint($route,new IjdbRoutes());
-    $entryPoint->run();
-} 
-catch (PDOException $e) 
-{
-    $title = 'An error has occurred';
-    $output = 'Database error: ' . 
-    $e->getMessage() . ' in '. 
-    $e->getFile() . ':' . $e->getLine();
-    include 'head.html.php';
-include 'footer.html.php';
+    $query .= '`' . $key . '` = :' . $key . ',';
 }
-?>
+$query = rtrim($query, ',');
+$query .= ' WHERE `id` = :primaryKey';
+echo $query;
+$query = ' UPDATE `joke` SET ';
+$fields['primaryKey'] = $fields['idjoke'];    
+foreach ($fields as $key => $value) 
+    {
+        $query .= '`' . $key . '` = :' . $key . ',';
+    }
+    $query = rtrim($query, ',');
+    $query .= ' WHERE `idjoke` = :primaryKey';
+    echo $query;
+    // Set the :primaryKey variable
+    $date = new DateTime();echo $date->format('d/m/Y H:i:s');
