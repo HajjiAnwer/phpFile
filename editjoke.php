@@ -4,18 +4,20 @@ include __DIR__ . '/includeFile/DatabaseConnection.php';
 include 'function.php';
 try 
 {
-    if (isset($_POST['joketext'])) 
+    if (isset($_POST['joke'])) 
     {
-        update($pdo, 'joke', 'idjoke', 
-                ['idjoke' => $_POST['idjoke'],
-                'joketext' => $_POST['joketext'],
-                'authorid' => 1
-                ]);
+        $joke = $_POST['joke'];
+        $joke['jokedate'] = new DateTime();
+        $joke['authorId'] = 1;
+        save($pdo, 'joke', 'idjoke', $joke);
         header('location: jokes.php');
     } 
     else 
     {
-        $joke = findById($pdo, 'joke', 'idjoke', $_GET['idjoke']);
+        if (isset($_GET['idjoke'])) 
+        {
+            $joke = findById($pdo, 'joke', 'idjoke', $_GET['idjoke']);
+        }
         $title = 'Edit joke';
         ob_start();
         include  __DIR__ . '/includeFile/editjoke.html.php';

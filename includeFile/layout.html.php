@@ -32,7 +32,7 @@
                    <li><a href="jokes.php" class="text-white">Joke List</a></li>
                    </div>
                    <div class="col-sm-4 text-center py-2">
-                   <li><a href="addjoke.php" class="text-white">Add A New Joke</a></li>
+                   <li><a href="editjoke.php" class="text-white">Add A New Joke</a></li>
                    </div>
                 </div>
             </ul>

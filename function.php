@@ -85,3 +85,18 @@ function allJokes($pdo)
                 FROM `joke` INNER JOIN `author`ON `authorid` = `author`.`id`');
     return $jokes->fetchAll();
 }
+function save($pdo, $table, $primaryKey, $record) 
+{
+    try 
+    {
+        if ($record[$primaryKey] == '') 
+        {
+            $record[$primaryKey] = null;
+        }
+        insert($pdo, $table, $record);
+    }
+    catch (PDOException $e) 
+    {
+        update($pdo, $table, $primaryKey, $record);
+    }
+}
