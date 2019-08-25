@@ -6,14 +6,16 @@ try
 {
     if (isset($_POST['joketext'])) 
     {
-        updateJoke($pdo, ['idjoke' => $_POST['idjoke'],
-                   'joketext' => $_POST['joketext'],
-                   'authorid' => 2]);
+        update($pdo, 'joke', 'idjoke', 
+                ['idjoke' => $_POST['idjoke'],
+                'joketext' => $_POST['joketext'],
+                'authorid' => 1
+                ]);
         header('location: jokes.php');
     } 
     else 
     {
-        $joke = getJoke($pdo, $_GET['idjoke']);
+        $joke = findById($pdo, 'joke', 'idjoke', $_GET['idjoke']);
         $title = 'Edit joke';
         ob_start();
         include  __DIR__ . '/includeFile/editjoke.html.php';

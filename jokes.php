@@ -4,9 +4,19 @@ try
 {
     include __DIR__.'/includeFile/DatabaseConnection.php';
     include 'function.php';
-    $jokes = allJokes($pdo);
+    $result = findAll($pdo, 'joke');
+    $jokes = [];
+    foreach ($result as $joke) 
+    {
+        $author = findById($pdo, 'author', 'id',$joke['authorid']);
+        $jokes[] = ['idjoke' => $joke['idjoke'],
+                    'joketext' => $joke['joketext'],
+                    'jokedate' => $joke['jokedate'],
+                    'name' => $author['name'],
+                ];
+    }
     $title = 'Joke list';
-    $totalJokes=totalJokes($pdo);
+    $totalJokes = total($pdo, 'joke');
     ob_start();
     include __DIR__.'/includeFile/jokes.html.php';
     $output = ob_get_clean();
