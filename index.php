@@ -1,24 +1,36 @@
 <?php
 ini_set('display_errors', 1);
-//include __DIR__.'/includeFile/layout.html.php';
-$array = [
-    'id' => 1,'joketext' => '!false - it\'s funny because it\'s true'];
-$query = ' UPDATE `joke` SET ';
-foreach ($array as $key => $value) 
+function loadTemplate($templateFileName, $variables = [])
 {
-    $query .= '`' . $key . '` = :' . $key . ',';
+    extract($variables);
+    ob_start();
+    include __DIR__.'/includeFile/'.$templateFileName;
+    return ob_get_clean();
 }
-$query = rtrim($query, ',');
-$query .= ' WHERE `id` = :primaryKey';
-echo $query;
-$query = ' UPDATE `joke` SET ';
-$fields['primaryKey'] = $fields['idjoke'];    
-foreach ($fields as $key => $value) 
+try
+{
+    include __DIR__.'/includeFile/DatabaseConnection.php';
+    include __DIR__.'/includeFile/DatabaseTable.php';
+    include 'JokeController.php';
+    $jokesTable = new DatabaseTable($pdo, 'joke', 'idjoke');
+    $authorsTable = new DatabaseTable($pdo, 'author', 'id');
+    $jokeController = new JokeController($jokesTable,$authorsTable);
+    $action = $_GET['action'] ?? 'home';
+    $page = $jokeController->$action();
+    $title = $page['title'];
+    if (isset($page['variables'])) 
     {
-        $query .= '`' . $key . '` = :' . $key . ',';
+        $output=loadTemplate($page['template'],$page['variables']);
     }
-    $query = rtrim($query, ',');
-    $query .= ' WHERE `idjoke` = :primaryKey';
-    echo $query;
-    // Set the :primaryKey variable
-    $date = new DateTime();echo $date->format('d/m/Y H:i:s');
+    else{
+        $output=loadTemplate($page['template']);
+    }
+} 
+catch (PDOException $e) 
+{
+    $title = 'An error has occurred';
+    $output = 'Database error: ' . 
+    $e->getMessage() . ' in '. 
+    $e->getFile() . ':' . $e->getLine();
+}
+include __DIR__.'/includeFile/layout.html.php';

@@ -3,8 +3,9 @@ ini_set('display_errors', 1);
 try 
 {
     include __DIR__ . '/includeFile/DatabaseConnection.php';
-    include 'function.php';
-    delete($pdo, 'joke', 'idjoke', $_POST['idjoke']);
+    include __DIR__.'/includeFile/DatabaseTable.php';
+    $jokesTable = new DatabaseTable($pdo, 'joke', 'idjoke');
+    $jokesTable->delete($_POST['idjoke']);
     header('location: jokes.php');
 }
 catch (PDOException $e) 

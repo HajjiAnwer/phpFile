@@ -26,13 +26,13 @@
                 <ul class="list-unstyled py-2">
                 <div class="row">
                     <div class="col-sm-4 text-center py-2">
-                   <li><a href="home.php" class="text-white">Home</a></li>
+                   <li><a href="index.php" class="text-white">Home</a></li>
                    </div>
                    <div class="col-sm-4 text-center py-2">
-                   <li><a href="jokes.php" class="text-white">Joke List</a></li>
+                   <li><a href="index.php?action=list" class="text-white">Joke List</a></li>
                    </div>
                    <div class="col-sm-4 text-center py-2">
-                   <li><a href="editjoke.php" class="text-white">Add A New Joke</a></li>
+                   <li><a href="index.php?action=edit" class="text-white">Add A New Joke</a></li>
                    </div>
                 </div>
             </ul>
