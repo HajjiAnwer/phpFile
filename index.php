@@ -11,12 +11,48 @@ try
 {
     include __DIR__.'/includeFile/DatabaseConnection.php';
     include __DIR__.'/includeFile/DatabaseTable.php';
-    include 'JokeController.php';
     $jokesTable = new DatabaseTable($pdo, 'joke', 'idjoke');
     $authorsTable = new DatabaseTable($pdo, 'author', 'id');
-    $jokeController = new JokeController($jokesTable,$authorsTable);
-    $action = $_GET['action'] ?? 'home';
-    $page = $jokeController->$action();
+    $route = ltrim(strtok($_SERVER['REQUEST_URI'], '?'), '/');
+    echo $route;
+    if ($route == strtolower($route)) 
+    {
+        if ($route === 'joke/list') 
+        {
+            include __DIR__.'/controller/JokeController.php';
+            $controller = new JokeController($jokesTable,$authorsTable);
+            $page = $controller->list();
+        } 
+        elseif ($route === '') 
+        {
+            include __DIR__.'/controller/JokeController.php';
+            $controller = new JokeController($jokesTable,$authorsTable);
+            $page = $controller->home();
+        } 
+        elseif ($route === 'joke/edit') 
+        {
+            include __DIR__.'/controller/JokeController.php';
+            $controller = new JokeController($jokesTable,$authorsTable);
+            $page = $controller->edit();
+        } 
+        elseif ($route === 'joke/delete') 
+        {
+            include __DIR__.'/controller/JokeController.php';
+            $controller = new JokeController($jokesTable,$authorsTable);
+            $page = $controller->delete();
+        } 
+        elseif ($route === 'register') 
+        {
+            include __DIR__ .'/controller/RegisterController.php';
+            $controller = new RegisterController($authorsTable);
+            $page = $controller->showForm();
+        }
+    } 
+    else 
+    {
+        http_response_code(301);
+        header('location: index.php?route=' . strtolower($route));
+    }
     $title = $page['title'];
     if (isset($page['variables'])) 
     {

@@ -21,10 +21,10 @@ foreach ($jokes as $joke): ?>
                $date = new DateTime($joke['jokedate']);
                echo '<span class="text-danger">'.$date->format('jS F Y').'</span>';
                ?>
-            <a href="index.php?action=edit&idjoke=<?=$joke['idjoke']?>">Edit</a>
+            <a href="/joke/edit?idjoke=<?=$joke['idjoke']?>">Edit</a>
         </div>
         <div class="col-sm-4 text-right">      
-        <form action="index.php?action=delete"  method="post">
+        <form action="/joke/delete"  method="post">
                 <input type="hidden" name="idjoke" value="<?=$joke['idjoke']?>">
                 <input type="submit" value="Delete" class="bg-primary  rounded border-primary">
             </form>
