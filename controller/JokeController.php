@@ -44,31 +44,26 @@ class JokeController
     public function delete()
     {
         $this->jokesTable->delete($_POST['idjoke']);
-        header('location: index.php?action=list');
+        header('location: /joke/list');
     }
-    public function edit()
+    public function saveEdit() 
     {
-        if (isset($_POST['joke'])) 
+        $joke = $_POST['joke'];
+        $joke['jokedate'] = new \DateTime();
+        $joke['authorId'] = 1;
+        $this->jokesTable->save($joke);
+        header('location: /joke/list');
+    }
+    public function edit() 
+    {
+        if (isset($_GET['idjoke'])) 
         {
-            $joke = $_POST['joke'];
-            $joke['jokedate'] = new DateTime();
-            $joke['authorid'] = 1;
-            $this->jokesTable->save($joke);
-            header('location: index.php?action=list');
-        } 
-        else 
-        {
-            if (isset($_GET['idjoke'])) 
-            {
-                $joke = $this->jokesTable->findById($_GET['idjoke']);
-            }
-            $title = 'Edit joke';
-            ob_start();
-            include  __DIR__ . '/includeFile/editjoke.html.php';
-            $output = ob_get_clean();
-            return ['template' => 'editjoke.html.php', 'title' => $title,
-                    'variables' => ['joke' => $joke ?? null]
-                    ];
+            $joke = $this->jokesTable->findById($_GET['idjoke']);
         }
+        $title = 'Edit joke';
+        return ['template' => 'editjoke.html.php',
+                'title' => $title,
+                'variables' => ['joke' => $joke ?? null]
+               ];
     }
 }
