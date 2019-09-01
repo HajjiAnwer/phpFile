@@ -4,10 +4,12 @@ class JokeController
 {
     private $authorsTable;
     private $jokesTable;
-    public function __construct(DatabaseTable $jokesTable,DatabaseTable $authorsTable  ) 
+    private $authentication;
+    public function __construct(DatabaseTable $jokesTable,DatabaseTable $authorsTable, Authentication $authentication ) 
     {
         $this->jokesTable = $jokesTable;
         $this->authorsTable = $authorsTable;
+        $this->authentication=$authentication;
     }
     public function list() 
     {
@@ -21,15 +23,20 @@ class JokeController
                         'joketext' => $joke['joketext'],
                         'jokedate' => $joke['jokedate'],
                         'name' => $author['name'],
+                        'email' => $author['email'],
+                        'authorid' => $author['id']
                     ];
         }
         $title = 'Joke list';
         $totalJokes =$this->jokesTable->total();
+        $author = $this->authentication->getUser();
         ob_start();
         include __DIR__.'/includeFile/jokes.html.php';
         $output = ob_get_clean();
         return ['template' => 'jokes.html.php', 'title' => $title,
-                'variables' => ['totalJokes' => $totalJokes,'jokes' => $jokes]
+                'variables' => ['totalJokes' => $totalJokes,
+                                'jokes' => $jokes,
+                                'userid' => $author['id'] ?? null]
                 ];
 
     }
@@ -48,9 +55,10 @@ class JokeController
     }
     public function saveEdit() 
     {
+        $author = $this->authentication->getUser();
         $joke = $_POST['joke'];
         $joke['jokedate'] = new \DateTime();
-        $joke['authorId'] = 1;
+        $joke['authorId'] = $author['id'];
         $this->jokesTable->save($joke);
         header('location: /joke/list');
     }
