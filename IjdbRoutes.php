@@ -23,8 +23,8 @@ class IjdbRoutes
         include __DIR__ .'/controller/JokeController.php';
         include __DIR__ .'/controller/register.php';
         include __DIR__ .'/controller/Login.php';
-        $jokesTable = new DatabaseTable($pdo, 'joke', 'idjoke');
-        $authorsTable = new DatabaseTable($pdo, 'author', 'id');
+        $jokesTable = new DatabaseTable($pdo, 'joke', 'idjoke','Joke',[&$this->authorsTable]);
+        $authorsTable = new DatabaseTable($pdo, 'author', 'id','Author',[&$this->jokesTable]);
         $jokeController = new JokeController($jokesTable,$authorsTable,$this->authentication);
         $authorController=new Register($authorsTable);
         $loginController = new Login($this->authentication);

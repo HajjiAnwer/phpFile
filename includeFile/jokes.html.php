@@ -9,24 +9,25 @@
 </p>        
 <hr>
 <?php 
-foreach ($jokes as $joke): ?>
+foreach ($jokes as $joke):
+?>
 <blockquote>
     <div class="row pb-3 pl-2 pt-2">
         <div class="col-sm-8 h5 text-justify"> 
-           <em class="text-capitalize"> <?=htmlspecialchars($joke['joketext'],ENT_QUOTES, 'UTF-8')?></em>
+           <em class="text-capitalize"> <?=htmlspecialchars($joke->joketext,ENT_QUOTES, 'UTF-8')?></em>
            (by <a href="#">
-           <?php echo htmlspecialchars($joke['name'], ENT_QUOTES,'UTF-8'); ?>
+           <?php echo htmlspecialchars($joke->getAuthor()->name, ENT_QUOTES,'UTF-8'); ?>
                </a>)
                <?php 
-               $date = new DateTime($joke['jokedate']);
+               $date = new DateTime($joke->jokedate);
                echo '<span class="text-danger">'.$date->format('jS F Y').'</span>';
                ?>
-            <?php if ($userid == $joke['authorid']): ?>   
-            <a href="/joke/edit?idjoke=<?=$joke['idjoke']?>">Edit</a>
+            <?php if ($userid == $joke->authorid): ?>   
+            <a href="/joke/edit?idjoke=<?=$joke->idjoke?>">Edit</a>
         </div>
         <div class="col-sm-4 text-right">      
             <form action="/joke/delete"  method="post">
-                <input type="hidden" name="idjoke" value="<?=$joke['idjoke']?>">
+                <input type="hidden" name="idjoke" value="<?=$joke->idjoke?>">
                 <input type="submit" value="Delete" class="bg-primary  rounded border-primary">
             </form>
         </div>

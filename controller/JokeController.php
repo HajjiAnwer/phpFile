@@ -13,20 +13,7 @@ class JokeController
     }
     public function list() 
     {
-        $result =$this->jokesTable->findAll();
-        $jokes = [];
-        //var_dump ($result);
-        foreach ($result as $joke) 
-        {
-            $author =$this->authorsTable->findById($joke['authorid']);
-            $jokes[] = ['idjoke' => $joke['idjoke'],
-                        'joketext' => $joke['joketext'],
-                        'jokedate' => $joke['jokedate'],
-                        'name' => $author['name'],
-                        'email' => $author['email'],
-                        'authorid' => $author['id']
-                    ];
-        }
+        $jokes = $this->jokesTable->findAll();
         $title = 'Joke list';
         $totalJokes =$this->jokesTable->total();
         $author = $this->authentication->getUser();
@@ -36,7 +23,7 @@ class JokeController
         return ['template' => 'jokes.html.php', 'title' => $title,
                 'variables' => ['totalJokes' => $totalJokes,
                                 'jokes' => $jokes,
-                                'userid' => $author['id'] ?? null]
+                                'userid' => $author->id ?? null]
                 ];
 
     }
@@ -58,8 +45,7 @@ class JokeController
         $author = $this->authentication->getUser();
         $joke = $_POST['joke'];
         $joke['jokedate'] = new \DateTime();
-        $joke['authorId'] = $author['id'];
-        $this->jokesTable->save($joke);
+        $author->addJoke($joke);
         header('location: /joke/list');
     }
     public function edit() 
@@ -68,10 +54,12 @@ class JokeController
         {
             $joke = $this->jokesTable->findById($_GET['idjoke']);
         }
+        $author = $this->authentication->getUser();
         $title = 'Edit joke';
         return ['template' => 'editjoke.html.php',
                 'title' => $title,
-                'variables' => ['joke' => $joke ?? null]
+                'variables' => ['joke' => $joke ?? null,
+                                'userid' => $author->id ?? null]
                ];
     }
 }
