@@ -2,6 +2,11 @@
         <h3 class="text-danger text-center pb-2 font-weight-bold"><em>List of Jokes:</em></h3>
         <div class="container bg-light">
         <hr>
+<ul>
+    <?php foreach ($categories as $category): ?>
+        <li><a href="/joke/list?category=<?=$category->id?>"><?=$category->categoryname?></a></li>
+    <?php endforeach; ?>
+</ul>
 <p>
     <em class="text-capitalize h5 text-justify">
         <?=$totalJokes?> jokes have been submitted to the Internet Joke Database.
