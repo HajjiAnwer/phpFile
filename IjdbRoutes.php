@@ -56,10 +56,12 @@ class IjdbRoutes
                                           'action' => 'permissions'],
                                 'POST' => ['controller' => $authorController,
                                             'action' => 'savePermissions'],
-                                'login' => true],
+                                'login' => true,
+                                'permissions' => Author::EDIT_USER_ACCESS],
         'author/list' => ['GET' => ['controller' => $authorController,
                                     'action' => 'list'],
-                          'login' => true],
+                          'login' => true,
+                            'permissions' => Author::EDIT_USER_ACCESS],
         'category/delete' => ['POST' => ['controller' => $categoryController,
                                          'action' => 'delete'],
                               'login' => true,
@@ -102,11 +104,13 @@ class IjdbRoutes
                                    'action' => 'saveEdit'],
                         'GET' => ['controller' => $jokeController,
                                              'action' => 'edit'],
-                        'login' => true
+                        'login' => true,
+                        'permissions' => 1
                        ],
         'joke/delete' => ['POST' => ['controller' => $jokeController,
                                      'action' => 'delete'],
-                          'login' => true
+                          'login' => true,
+                           'permissions' => Author::DELETE_JOKES
                          ],
         'joke/list' => ['GET' => ['controller' => $jokeController,
                                   'action' => 'list']

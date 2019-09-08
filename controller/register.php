@@ -18,6 +18,7 @@ class Register
     public function savePermissions() 
     {
         $author = ['id' => $_GET['id'],'permissions' => array_sum($_POST['permissions'] ?? [])];
+        var_dump($author['permission']);
         $this->authorsTable->save($author);
         header('location: /author/list');
     }
@@ -26,6 +27,7 @@ class Register
         $author = $this->authorsTable->findById($_GET['id']);
         $reflected = new \ReflectionClass('Author');
         $constants = $reflected->getConstants();
+        var_dump($author);
         return ['template' => 'permession.html.php',
                 'title' => 'Edit Permissions',
                 'variables' => ['author' => $author,

@@ -19,7 +19,7 @@ foreach ($jokes as $joke):
 <blockquote>
     <div class="row pb-3 pl-2 pt-2">
         <div class="col-sm-8 h5 text-justify"> 
-           <em class="text-capitalize"> <?=htmlspecialchars($joke->joketext,ENT_QUOTES, 'UTF-8')?></em>
+           <?php $markdown = new Markdown($joke->joketext);echo $markdown->toHtml();?>
            (by <a href="#">
            <?php echo htmlspecialchars($joke->getAuthor()->name, ENT_QUOTES,'UTF-8'); ?>
                </a>)
@@ -27,19 +27,37 @@ foreach ($jokes as $joke):
                $date = new DateTime($joke->jokedate);
                echo '<span class="text-danger">'.$date->format('jS F Y').'</span>';
                ?>
-            <?php if ($userid == $joke->authorid): ?>   
+            <?php if ($user): ?>
+            <?php if ($user->id == $joke->authorid ||
+            $user->hasPermission(Author::EDIT_JOKES)): ?>
             <a href="/joke/edit?idjoke=<?=$joke->idjoke?>">Edit</a>
+            <?php endif; ?>
         </div>
-        <div class="col-sm-4 text-right">      
+        <div class="col-sm-4 text-right">    
+        <?php if ($user->id == $joke->authorid ||
+        $user->hasPermission(Author::DELETE_JOKES)):?>  
             <form action="/joke/delete"  method="post">
                 <input type="hidden" name="idjoke" value="<?=$joke->idjoke?>">
                 <input type="submit" value="Delete" class="bg-primary  rounded border-primary">
             </form>
         </div>
+        <?php endif; ?>
         <?php endif; ?>    
     </div>
 </blockquote>
 <hr>
 <?php endforeach; ?>
+Select page:
+<?php
+$numPages = ceil($totalJokes/3);
+for ($i = 1; $i <= $numPages; $i++):
+if ($i == $currentPage):?>
+<a class="text-danger"href="/joke/list?page=<?=$i?>
+<?=!empty($categoryid) ?'&category=' . $categoryid : '' ?>"><?=$i?></a>
+<?php else: ?>
+<a href="/joke/list?page=<?=$i?>
+<?=!empty($categoryid) ?'&category=' . $categoryid : '' ?>"><?=$i?></a>
+<?php endif; ?>
+<?php endfor; ?>
 </div>
 </div>

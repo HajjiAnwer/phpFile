@@ -1,4 +1,5 @@
-<?php if (empty($joke->idjoke) || $userid ==$joke->authorid):?>
+<?php if (empty($joke->id) || $user->id == $joke->authorId 
+    || $user->hasPermission(Author::EDIT_JOKES)): ?>
 <form action="" method="post">
 <input type="hidden" name="joke[idjoke]"value="<?=$joke->idjoke ?? ''?>">
 <label for="joketext">Type your joke here:</label>

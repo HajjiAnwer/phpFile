@@ -11,8 +11,9 @@ class Author
     public $name;
     public $email;
     public $password;
+    public $permissions; 
+
     private $jokesTable;
-    private $permissions;
     public function __construct(DatabaseTable $jokesTable)
     {
         $this->jokesTable = $jokesTable;

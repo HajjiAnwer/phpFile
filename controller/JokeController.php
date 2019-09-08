@@ -15,18 +15,22 @@ class JokeController
     }
     public function list() 
     {
+        $page = $_GET['page']    ?? 1;
+        $offset = ($page-1)*3;
         if (isset($_GET['category'])) 
         {
             $category = $this->categoriesTable->findById($_GET['category']);
-            $jokes = $category->getJokes();
+            $jokes = $category->getJokes(3,$offset);
+            $totalJokes = $category->getNumJokes();
         }
         else 
         {
-            $jokes = $this->jokesTable->findAll();
+            $jokes = $this->jokesTable->findAll('jokedate DESC',3,$offset);
+            $totalJokes = $this->jokesTable->total();
         }
+        include 'Markdown.php';
         $categories = $this->categoriesTable->findAll();
         $title = 'Joke list';
-        $totalJokes =$this->jokesTable->total();
         $author = $this->authentication->getUser();
         ob_start();
         include __DIR__.'/includeFile/jokes.html.php';
@@ -34,8 +38,10 @@ class JokeController
         return ['template' => 'jokes.html.php', 'title' => $title,
                 'variables' => ['totalJokes' => $totalJokes,
                                 'jokes' => $jokes,
-                                'userid' => $author->id ?? null,
-                                'categories' => $categories]
+                                'user' => $author,
+                                'categories' => $categories,
+                                'currentPage' => $page,
+                                'category' => $_GET['category'] ?? null]
                 ];
 
     }
@@ -49,6 +55,13 @@ class JokeController
     }
     public function delete()
     {
+        $author = $this->authentication->getUser();
+        $joke = $this->jokesTable->findById($_POST['id']);
+        if ($joke->authorId != $author->id && 
+            !$author->hasPermission(Author::DELETE_JOKES)) 
+            {
+                return;
+            }
         $this->jokesTable->delete($_POST['idjoke']);
         header('location: /joke/list');
     }
@@ -77,7 +90,7 @@ class JokeController
         return ['template' => 'editjoke.html.php',
                 'title' => $title,
                 'variables' => ['joke' => $joke ?? null,
-                                'userid' => $author->id ?? null,
+                                'user' => $author,
                                 'categories' => $categories]
                ];
     }
